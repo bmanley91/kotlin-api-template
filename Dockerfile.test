@@ -1,0 +1,15 @@
+FROM amazoncorretto:17 as builder
+
+WORKDIR /app
+
+# Copy the Gradle files and the source code
+COPY build.gradle.kts ./
+COPY gradlew ./
+COPY gradle gradle/
+COPY src src/
+
+# Grant execute permission for the Gradle wrapper script
+RUN chmod +x ./gradlew
+
+# Run the tests
+CMD ["./gradlew", "test", "--info"]

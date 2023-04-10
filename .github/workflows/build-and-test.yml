@@ -25,16 +25,8 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Build and test the Docker image
-        uses: docker/build-push-action@v4
-        with:
-          context: .
-          file: ./Dockerfile.test
-          push: false
-          target: test-runner
-          tags: bmanley/kotlin-api-template:test
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
+      - name: Run Tests
+        run: ./scripts/test
 
       - name: Build and push the Docker image
         if: github.ref == 'refs/heads/master'

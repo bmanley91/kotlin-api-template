@@ -26,7 +26,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Run Tests
-        run: ./scripts/test
+        run: ./script/test
 
       - name: Build and push the Docker image
         if: github.ref == 'refs/heads/master'

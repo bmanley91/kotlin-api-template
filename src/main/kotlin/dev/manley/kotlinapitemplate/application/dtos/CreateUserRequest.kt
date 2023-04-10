@@ -1,3 +1,6 @@
 package dev.manley.kotlinapitemplate.application.dtos
 
-data class CreateUserRequest()
+data class CreateUserRequest(
+    val username: String,
+    val password: String
+)

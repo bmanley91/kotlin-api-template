@@ -1,4 +1,7 @@
 package dev.manley.kotlinapitemplate.application.dtos
 
-class CreateUserResponse {
-}
+import java.util.UUID
+
+data class CreateUserResponse (
+    val id: UUID
+)

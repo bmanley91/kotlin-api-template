@@ -8,9 +8,9 @@ services:
     ports:
       - "8080:8080"
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/your-database-name
-      - SPRING_DATASOURCE_USERNAME=your-db-username
-      - SPRING_DATASOURCE_PASSWORD=your-db-password
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/kotlin-template-api
+      - SPRING_DATASOURCE_USERNAME=kotlin-template-api
+      - SPRING_DATASOURCE_PASSWORD=kotlin-template-api
     depends_on:
       - db
 

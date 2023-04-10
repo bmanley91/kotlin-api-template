@@ -1,0 +1,9 @@
+spring:
+  datasource:
+    url: "jdbc:postgresql://localhost:5432/bible_notes_api"
+    username: bible_notes_api_user
+    password: bible_notes_api
+
+logging:
+  level:
+    root: info

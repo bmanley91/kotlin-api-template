@@ -1,6 +1,6 @@
-package dev.manley.kotlinapitemplate.infrastructure.web.controllers
+package dev.manley.kotlinapitemplate.presentation.controller
 
-import dev.manley.kotlinapitemplate.application.dtos.HealthResponse
+import dev.manley.kotlinapitemplate.presentation.response.HealthResponse
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController

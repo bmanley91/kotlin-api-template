@@ -6,11 +6,7 @@ import dev.manley.kotlinapitemplate.presentation.request.CreatePersonRequest
 import dev.manley.kotlinapitemplate.usecase.person.CreatePersonUsecase
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.ExceptionHandler
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 import java.util.UUID
 
 @RestController
@@ -26,6 +22,11 @@ class PersonController(private val createPersonUsecase: CreatePersonUsecase) {
         )
         val createdPerson = createPersonUsecase.execute(person)
         return ResponseEntity.status(HttpStatus.CREATED).body(createdPerson)
+    }
+
+    @GetMapping("/:id")
+    fun getPerson(@RequestParam id: UUID): ResponseEntity<Person> {
+        return ResponseEntity.ok().build()
     }
 
     @ExceptionHandler(EmailAlreadyExistsException::class)

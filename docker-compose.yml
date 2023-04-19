@@ -24,3 +24,16 @@ services:
     ports:
       - "5432:5432"
 
+  test:
+    build:
+      dockerfile: Dockerfile.test
+    container_name: kotlin-template-api-service-test
+    command: ./gradlew test --info
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/kotlin-template-api
+      - SPRING_DATASOURCE_USERNAME=kotlin-template-api
+      - SPRING_DATASOURCE_PASSWORD=kotlin-template-api
+      - CI=true
+      - SPRING_PROFILES_ACTIVE=test
+    depends_on:
+      - db

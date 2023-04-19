@@ -27,6 +27,7 @@ services:
   test:
     build:
       dockerfile: Dockerfile.test
+      context: .
     container_name: kotlin-template-api-service-test
     command: ./gradlew test --info
     environment:

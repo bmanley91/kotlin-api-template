@@ -1,6 +1,7 @@
 package dev.manley.kotlinapitemplate.infrastructure.web.controllers
 
-import dev.manley.kotlinapitemplate.application.dtos.HealthResponse
+import dev.manley.kotlinapitemplate.presentation.response.HealthResponse
+import dev.manley.kotlinapitemplate.presentation.controller.HealthController
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Assertions.assertEquals
 

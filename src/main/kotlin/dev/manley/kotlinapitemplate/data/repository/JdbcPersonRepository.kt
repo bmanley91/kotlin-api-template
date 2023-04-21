@@ -1,5 +1,6 @@
 package dev.manley.kotlinapitemplate.data.repository
 
+import dev.manley.kotlinapitemplate.domain.exception.PersonCreationException
 import dev.manley.kotlinapitemplate.domain.model.Person
 import dev.manley.kotlinapitemplate.domain.repository.PersonRepository
 import org.springframework.jdbc.core.RowMapper
@@ -29,7 +30,7 @@ class JdbcPersonRepository(private val jdbcTemplate: NamedParameterJdbcTemplate)
         jdbcTemplate.update(sql, params)
 
         val createdUser = findByEmail(person.email)
-        return createdUser ?: throw RuntimeException("User creation failed")
+        return createdUser ?: throw PersonCreationException(person)
     }
 
     override fun findByEmail(email: String): Person? {

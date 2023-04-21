@@ -6,8 +6,8 @@ import dev.manley.kotlinapitemplate.domain.repository.PersonRepository
 import org.springframework.stereotype.Component
 
 @Component
-class CreatePersonUsecase (
-    private val personRepository: PersonRepository,
+class CreatePersonUsecase(
+    private val personRepository: PersonRepository
 //    private val passwordEncoder: PasswordEncoder
 ) {
     fun execute(person: Person): Person {
@@ -15,7 +15,6 @@ class CreatePersonUsecase (
             throw EmailAlreadyExistsException("Email ${person.email} already in use.")
         }
 
-        // TODO: Implement password hash
         // val hashedPassword = passwordEncoder.encode(person.password)
         // val newPerson = person.copy(password = hashedPassword)
 

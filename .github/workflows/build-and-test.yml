@@ -34,7 +34,7 @@ jobs:
         run: ./script/lint
 
       - name: Run Tests
-        run: ./script/test
+        run: ./script/ci/test
 
       - name: Build and push the Docker image
         if: github.ref == 'refs/heads/master'

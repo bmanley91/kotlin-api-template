@@ -29,7 +29,9 @@ services:
       dockerfile: Dockerfile.test
       context: .
     container_name: kotlin-template-api-service-test
-    command: ./gradlew test --info
+    command: >
+      ./gradlew test jacocoTestReport --info &&
+      bash <(curl -s https://codecov.io/bash)
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/kotlin-template-api
       - SPRING_DATASOURCE_USERNAME=kotlin-template-api

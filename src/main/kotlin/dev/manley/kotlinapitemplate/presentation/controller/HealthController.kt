@@ -12,5 +12,4 @@ class HealthController {
     @GetMapping
     fun healthCheck(): HealthResponse =
         HealthResponse()
-
 }

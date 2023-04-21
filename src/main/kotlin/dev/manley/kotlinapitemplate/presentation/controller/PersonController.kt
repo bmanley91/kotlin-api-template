@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
-
 import java.util.UUID
 
 @RestController
@@ -36,8 +35,9 @@ class PersonController(
             password = createPersonRequest.password
         )
             .let { person ->
-                logger.info{ "Creating person: $person" }
-                createPersonUsecase.execute(person) }
+                logger.info { "Creating person: $person" }
+                createPersonUsecase.execute(person)
+            }
             .let { createdPerson ->
                 logger.info { "Created person: $createdPerson" }
                 return ResponseEntity.status(HttpStatus.CREATED).body(createdPerson)
@@ -52,10 +52,9 @@ class PersonController(
                 return ResponseEntity.ok(it)
             }
             ?: run {
-                logger.info{ "Person with id $id not found." }
+                logger.info { "Person with id $id not found." }
                 return ResponseEntity.notFound().build()
             }
-
 
     @ExceptionHandler(EmailAlreadyExistsException::class)
     fun handleEmailAlreadyExistsException(exception: EmailAlreadyExistsException): ResponseEntity<Any> =

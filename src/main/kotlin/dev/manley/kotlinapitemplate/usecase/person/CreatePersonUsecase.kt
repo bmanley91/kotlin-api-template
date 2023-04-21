@@ -6,8 +6,8 @@ import dev.manley.kotlinapitemplate.domain.repository.PersonRepository
 import org.springframework.stereotype.Component
 
 @Component
-class CreatePersonUsecase (
-    private val personRepository: PersonRepository,
+class CreatePersonUsecase(
+    private val personRepository: PersonRepository
 //    private val passwordEncoder: PasswordEncoder
 ) {
     fun execute(person: Person): Person {

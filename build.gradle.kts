@@ -48,7 +48,7 @@ tasks.jar {
 }
 
 ktlint {
-    reporters{
+    reporters {
         reporter(ReporterType.HTML)
         reporter(ReporterType.CHECKSTYLE)
     }

@@ -38,4 +38,11 @@ class JdbcPersonRepository(private val jdbcTemplate: NamedParameterJdbcTemplate)
 
         return jdbcTemplate.query(sql, params, userRowMapper).firstOrNull()
     }
+
+    override fun findById(id: UUID): Person? {
+        val sql = "SELECT id, name, email, hashed_password FROM person WHERE id = :id;"
+        val params = MapSqlParameterSource().addValue("id", id)
+
+        return jdbcTemplate.query(sql, params, userRowMapper).firstOrNull()
+    }
 }

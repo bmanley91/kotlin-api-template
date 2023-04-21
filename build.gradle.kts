@@ -1,8 +1,11 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.jlleitschuh.gradle.ktlint.reporter.ReporterType
 
 plugins {
     id("org.springframework.boot") version "3.0.5"
     id("io.spring.dependency-management") version "1.1.0"
+    id("org.jlleitschuh.gradle.ktlint") version "11.3.1"
+    id("io.gitlab.arturbosch.detekt") version "1.22.0"
     kotlin("jvm") version "1.7.22"
     kotlin("plugin.spring") version "1.7.22"
 }
@@ -42,4 +45,11 @@ tasks.jar {
     enabled = true
     // Remove `plain` postfix from jar file name
     archiveClassifier.set("")
+}
+
+ktlint {
+    reporters{
+        reporter(ReporterType.HTML)
+        reporter(ReporterType.CHECKSTYLE)
+    }
 }

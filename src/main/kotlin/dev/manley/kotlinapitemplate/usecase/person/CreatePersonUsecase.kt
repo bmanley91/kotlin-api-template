@@ -15,7 +15,6 @@ class CreatePersonUsecase (
             throw EmailAlreadyExistsException("Email ${person.email} already in use.")
         }
 
-        // TODO: Implement password hash
         // val hashedPassword = passwordEncoder.encode(person.password)
         // val newPerson = person.copy(password = hashedPassword)
 

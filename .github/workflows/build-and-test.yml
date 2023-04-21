@@ -25,6 +25,9 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
+      - name: Static Analysis
+        run: ./script/lint
+
       - name: Run Tests
         run: ./script/test
 

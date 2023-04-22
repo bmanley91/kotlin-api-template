@@ -29,7 +29,12 @@ services:
       dockerfile: Dockerfile.test
       context: .
     container_name: kotlin-template-api-service-test
-    command: ./gradlew test --info
+    command:
+      - /bin/sh
+      - -c
+      - | 
+        ./gradlew test jacocoTestReport --info
+        cp build/reports/jacoco/test/jacocoTestReport.xml /shared/jacocoTestReport.xml
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/kotlin-template-api
       - SPRING_DATASOURCE_USERNAME=kotlin-template-api
@@ -38,3 +43,5 @@ services:
       - SPRING_PROFILES_ACTIVE=test
     depends_on:
       - db
+    volumes:
+      - ./shared:/shared

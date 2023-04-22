@@ -10,6 +10,3 @@ COPY src src/
 
 # Grant execute permission for the Gradle wrapper script
 RUN chmod +x ./gradlew
-
-# Run the tests
-CMD ["./gradlew", "test", "--info"]

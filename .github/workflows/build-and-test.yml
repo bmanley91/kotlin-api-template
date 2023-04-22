@@ -68,7 +68,7 @@ jobs:
         push: true
         tags: |
           bmanley/kotlin-api-template:latest
-          bmanley/kotlin-api-template:1.0.${{ github.build_number }}
+          bmanley/kotlin-api-template:1.0.${{ github.run_id }}
         cache-from: type=gha
         cache-to: type=gha,mode=max
 

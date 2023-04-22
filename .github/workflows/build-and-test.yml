@@ -79,7 +79,6 @@ jobs:
         context: .
         file: ./Dockerfile
         push: true
-        tags:
-          - bmanley/kotlin-api-template:${{ github.sha }}
+        tags: bmanley/kotlin-api-template:${{ github.sha }}
         cache-from: type=gha
         cache-to: type=gha,mode=max

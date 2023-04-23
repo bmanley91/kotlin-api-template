@@ -1,3 +1,4 @@
+
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.jlleitschuh.gradle.ktlint.reporter.ReporterType
 
@@ -57,6 +58,19 @@ tasks.jacocoTestReport {
     reports {
         xml.required.set(true)
     }
+
+    classDirectories.setFrom(
+        files(
+            classDirectories.files.map {
+                fileTree(it) {
+                    exclude(
+                        "**/mapper/**",
+                        "**/config/**"
+                    )
+                }
+            }
+        )
+    )
 }
 
 ktlint {

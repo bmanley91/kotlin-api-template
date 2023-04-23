@@ -2,6 +2,8 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.jlleitschuh.gradle.ktlint.reporter.ReporterType
 
+val swaggerVersion = "1.7.0"
+
 plugins {
     id("org.springframework.boot") version "3.0.5"
     id("io.spring.dependency-management") version "1.1.0"
@@ -27,6 +29,9 @@ dependencies {
     implementation("io.github.microutils:kotlin-logging:3.0.5")
     implementation("org.flywaydb:flyway-core")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
+    implementation("org.springdoc:springdoc-openapi-data-rest:$swaggerVersion")
+    implementation("org.springdoc:springdoc-openapi-ui:$swaggerVersion")
+    implementation("org.springdoc:springdoc-openapi-kotlin:$swaggerVersion")
     runtimeOnly("org.postgresql:postgresql")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("io.mockk:mockk:1.12.4")

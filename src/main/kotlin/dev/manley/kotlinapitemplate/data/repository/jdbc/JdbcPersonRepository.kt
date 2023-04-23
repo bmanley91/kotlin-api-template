@@ -1,24 +1,16 @@
-package dev.manley.kotlinapitemplate.data.repository
+package dev.manley.kotlinapitemplate.data.repository.jdbc
 
+import dev.manley.kotlinapitemplate.data.repository.jdbc.mapper.personRowMapper
 import dev.manley.kotlinapitemplate.domain.exception.PersonCreationException
 import dev.manley.kotlinapitemplate.domain.model.Person
 import dev.manley.kotlinapitemplate.domain.repository.PersonRepository
-import org.springframework.jdbc.core.RowMapper
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate
 import org.springframework.stereotype.Repository
-import java.util.*
+import java.util.UUID
 
 @Repository
 class JdbcPersonRepository(private val jdbcTemplate: NamedParameterJdbcTemplate) : PersonRepository {
-    private val userRowMapper = RowMapper { rs, _ ->
-        Person(
-            id = rs.getObject("id") as UUID,
-            name = rs.getString("name"),
-            email = rs.getString("email"),
-            password = rs.getString("hashed_password")
-        )
-    }
 
     override fun save(person: Person): Person {
         val sql = "INSERT INTO person (name, email, hashed_password) VALUES (:name, :email, :password);"
@@ -37,13 +29,13 @@ class JdbcPersonRepository(private val jdbcTemplate: NamedParameterJdbcTemplate)
         val sql = "SELECT id, name, email, hashed_password FROM person WHERE email = :email;"
         val params = MapSqlParameterSource().addValue("email", email)
 
-        return jdbcTemplate.query(sql, params, userRowMapper).firstOrNull()
+        return jdbcTemplate.query(sql, params, personRowMapper).firstOrNull()
     }
 
     override fun findById(id: UUID): Person? {
         val sql = "SELECT id, name, email, hashed_password FROM person WHERE id = :id;"
         val params = MapSqlParameterSource().addValue("id", id)
 
-        return jdbcTemplate.query(sql, params, userRowMapper).firstOrNull()
+        return jdbcTemplate.query(sql, params, personRowMapper).firstOrNull()
     }
 }

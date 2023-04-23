@@ -1,2 +1,4 @@
 #!/bin/bash
-docker-compose -f docker-compose.yml run --rm test
+# Make sure there's nothing in the directory that gets mounted
+rm -rf shared
+docker-compose -f docker-compose.yml run test

@@ -1,3 +1,4 @@
+
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.jlleitschuh.gradle.ktlint.reporter.ReporterType
 
@@ -28,7 +29,7 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     runtimeOnly("org.postgresql:postgresql")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
-    testImplementation("org.mockito.kotlin:mockito-kotlin:4.1.0")
+    testImplementation("io.mockk:mockk:1.12.4")
 }
 
 tasks.withType<KotlinCompile> {
@@ -57,6 +58,19 @@ tasks.jacocoTestReport {
     reports {
         xml.required.set(true)
     }
+
+    classDirectories.setFrom(
+        files(
+            classDirectories.files.map {
+                fileTree(it) {
+                    exclude(
+                        "**/mapper/**",
+                        "**/config/**"
+                    )
+                }
+            }
+        )
+    )
 }
 
 ktlint {

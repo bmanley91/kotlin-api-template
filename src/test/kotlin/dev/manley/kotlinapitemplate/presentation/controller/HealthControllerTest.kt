@@ -1,13 +1,12 @@
-package dev.manley.kotlinapitemplate.infrastructure.web.controllers
+package dev.manley.kotlinapitemplate.presentation.controller
 
-import dev.manley.kotlinapitemplate.presentation.controller.HealthController
 import dev.manley.kotlinapitemplate.presentation.response.HealthResponse
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
 class HealthControllerTest {
     @Test
-    fun testHealthCheck() {
+    fun `test health check`() {
         val controller = HealthController()
 
         val response = controller.healthCheck()

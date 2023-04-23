@@ -34,7 +34,7 @@ services:
       - -c
       - | 
         ./gradlew test jacocoTestReport --info
-        cp build/reports/jacoco/test/jacocoTestReport.xml /shared/jacocoTestReport.xml
+        cp -r build/reports/jacoco/test /shared/jacoco
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/kotlin-template-api
       - SPRING_DATASOURCE_USERNAME=kotlin-template-api

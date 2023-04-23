@@ -88,12 +88,14 @@ class PersonControllerTest {
     fun testRetrievePersonById() {
         val mockRetrievePersonByIdUsecase = mockk<RetrievePersonByIdUsecase>()
         val idSlot = slot<UUID>()
-        every { mockRetrievePersonByIdUsecase.execute(id = capture(idSlot)) } answers { Person(
-            id = idSlot.captured,
-            name = name,
-            email = email,
-            password = password
-        )}
+        every { mockRetrievePersonByIdUsecase.execute(id = capture(idSlot)) } answers {
+            Person(
+                id = idSlot.captured,
+                name = name,
+                email = email,
+                password = password
+            )
+        }
         val controller = PersonController(
             createPersonUsecase = mockk(),
             retrievePersonByIdUsecase = mockRetrievePersonByIdUsecase

@@ -2,6 +2,7 @@ package dev.manley.kotlinapitemplate.data.repository
 
 import dev.manley.kotlinapitemplate.data.repository.jdbc.JdbcPersonRepository
 import dev.manley.kotlinapitemplate.data.repository.jdbc.mapper.personRowMapper
+import dev.manley.kotlinapitemplate.domain.exception.PersonCreationException
 import dev.manley.kotlinapitemplate.domain.model.Person
 import io.mockk.every
 import io.mockk.mockk
@@ -9,6 +10,7 @@ import io.mockk.slot
 import io.mockk.verify
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate
 import org.springframework.jdbc.core.namedparam.SqlParameterSource
 import java.util.UUID
@@ -50,5 +52,37 @@ class JdbcPersonRepositoryTest {
         verify(exactly = 1) { jdbcTemplate.update(saveSqlSlot.captured, saveParamsSlot.captured) }
         verify(exactly = 1) { jdbcTemplate.query(querySqlSlot.captured, queryParamsSlot.captured, personRowMapper) }
         assertEquals(testPerson, result)
+    }
+
+    @Test
+    fun `test save person fails`() {
+        val jdbcTemplate = mockk<NamedParameterJdbcTemplate>()
+        val saveSqlSlot = slot<String>()
+        val saveParamsSlot = slot<SqlParameterSource>()
+        every {
+            jdbcTemplate.update(
+                capture(saveSqlSlot),
+                capture(saveParamsSlot)
+            )
+        } returns 1
+
+        val querySqlSlot = slot<String>()
+        val queryParamsSlot = slot<SqlParameterSource>()
+        every {
+            jdbcTemplate.query(
+                capture(querySqlSlot),
+                capture(queryParamsSlot),
+                personRowMapper
+            )
+        } answers { listOf() }
+
+        val repository = JdbcPersonRepository(jdbcTemplate)
+
+        assertThrows<PersonCreationException> {
+            repository.save(testPerson)
+        }
+
+        verify(exactly = 1) { jdbcTemplate.update(saveSqlSlot.captured, saveParamsSlot.captured) }
+        verify(exactly = 1) { jdbcTemplate.query(querySqlSlot.captured, queryParamsSlot.captured, personRowMapper) }
     }
 }

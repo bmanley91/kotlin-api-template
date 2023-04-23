@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test
 
 class HealthControllerTest {
     @Test
-    fun testHealthCheck() {
+    fun `test health check`() {
         val controller = HealthController()
 
         val response = controller.healthCheck()

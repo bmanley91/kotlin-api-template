@@ -21,7 +21,7 @@ class PersonControllerTest {
     private val password = "abc123"
 
     @Test
-    fun testCreatePerson() {
+    fun `test create person`() {
         val mockCreatePersonUsecase = mockk<CreatePersonUsecase>()
         val personSlot = slot<Person>()
         every { mockCreatePersonUsecase.execute(person = capture(personSlot)) } answers { personSlot.captured }
@@ -45,7 +45,7 @@ class PersonControllerTest {
     }
 
     @Test
-    fun testCreatePersonEmailInUse() {
+    fun `test create person email in use`() {
         val mockCreatePersonUsecase = mockk<CreatePersonUsecase>()
         val personSlot = slot<Person>()
         every { mockCreatePersonUsecase.execute(person = capture(personSlot)) } answers {
@@ -73,7 +73,7 @@ class PersonControllerTest {
     }
 
     @Test
-    fun testEmailInUseExceptionHandler() {
+    fun `test email in use exception handler`() {
         val controller = PersonController(
             createPersonUsecase = mockk(),
             retrievePersonByIdUsecase = mockk()

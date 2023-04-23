@@ -85,4 +85,46 @@ class JdbcPersonRepositoryTest {
         verify(exactly = 1) { jdbcTemplate.update(saveSqlSlot.captured, saveParamsSlot.captured) }
         verify(exactly = 1) { jdbcTemplate.query(querySqlSlot.captured, queryParamsSlot.captured, personRowMapper) }
     }
+
+    @Test
+    fun `test find by email`() {
+        val jdbcTemplate = mockk<NamedParameterJdbcTemplate>()
+        val sqlSlot = slot<String>()
+        val paramsSlot = slot<SqlParameterSource>()
+        every {
+            jdbcTemplate.query(
+                capture(sqlSlot),
+                capture(paramsSlot),
+                personRowMapper
+            )
+        } answers { listOf(testPerson) }
+
+        val repository = JdbcPersonRepository(jdbcTemplate)
+
+        val result = repository.findByEmail(testPerson.email)
+
+        verify(exactly = 1) { jdbcTemplate.query(sqlSlot.captured, paramsSlot.captured, personRowMapper) }
+        assertEquals(testPerson, result)
+    }
+
+    @Test
+    fun `test find by id`() {
+        val jdbcTemplate = mockk<NamedParameterJdbcTemplate>()
+        val sqlSlot = slot<String>()
+        val paramsSlot = slot<SqlParameterSource>()
+        every {
+            jdbcTemplate.query(
+                capture(sqlSlot),
+                capture(paramsSlot),
+                personRowMapper
+            )
+        } answers { listOf(testPerson) }
+
+        val repository = JdbcPersonRepository(jdbcTemplate)
+
+        val result = repository.findById(testPerson.id)
+
+        verify(exactly = 1) { jdbcTemplate.query(sqlSlot.captured, paramsSlot.captured, personRowMapper) }
+        assertEquals(testPerson, result)
+    }
 }

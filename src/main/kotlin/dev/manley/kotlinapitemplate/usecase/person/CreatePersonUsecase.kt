@@ -12,7 +12,7 @@ class CreatePersonUsecase(
 ) {
     fun execute(person: Person): Person {
         personRepository.findByEmail(person.email)?.let {
-            throw EmailAlreadyExistsException("Email ${person.email} already in use.")
+            throw EmailAlreadyExistsException(person.email)
         }
 
         // val hashedPassword = passwordEncoder.encode(person.password)

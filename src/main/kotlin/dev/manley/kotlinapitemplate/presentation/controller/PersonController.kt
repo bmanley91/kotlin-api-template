@@ -5,7 +5,7 @@ import dev.manley.kotlinapitemplate.domain.model.Person
 import dev.manley.kotlinapitemplate.presentation.request.CreatePersonRequest
 import dev.manley.kotlinapitemplate.usecase.person.CreatePersonUsecase
 import dev.manley.kotlinapitemplate.usecase.person.RetrievePersonByIdUsecase
-import mu.KLogging
+import mu.KotlinLogging
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.ExceptionHandler
@@ -17,14 +17,14 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import java.util.UUID
 
+private val logger = KotlinLogging.logger {}
+
 @RestController
 @RequestMapping("/api/persons")
 class PersonController(
     private val createPersonUsecase: CreatePersonUsecase,
     private val retrievePersonByIdUsecase: RetrievePersonByIdUsecase
 ) {
-
-    companion object : KLogging()
 
     @PostMapping
     fun createPerson(@RequestBody createPersonRequest: CreatePersonRequest): ResponseEntity<Person> =

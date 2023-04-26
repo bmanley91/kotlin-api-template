@@ -1,0 +1,8 @@
+#!/bin/bash
+aws cloudformation create-stack \
+  --stack-name kotlin-api-template-database \
+  --template-body file://cloudformation/database.yml \
+  --parameters \
+      ParameterKey=DBName,ParameterValue=kotlin_template_api \
+      ParameterKey=NetworkStackName,ParameterValue=kotlin-api-template-network \
+      ParameterKey=DBUsername,ParameterValue=kotlin_template_api

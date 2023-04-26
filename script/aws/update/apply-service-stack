@@ -1,0 +1,18 @@
+#!/bin/bash
+TAG_TO_DEPLOY="${1:-latest}"
+
+echo "Updating image tag to: ${TAG_TO_DEPLOY}"
+
+aws cloudformation update-stack \
+  --stack-name kotlin-api-template-service \
+  --template-body file://cloudformation/service.yml \
+  --region us-east-1 \
+  --parameters \
+      ParameterKey=NetworkStackName,ParameterValue=kotlin-api-template-network \
+      ParameterKey=ServiceName,ParameterValue=kotlin-api-template \
+      ParameterKey=ImageUrl,ParameterValue=docker.io/bmanley/kotlin-api-template:"${TAG_TO_DEPLOY}" \
+      ParameterKey=ContainerPort,ParameterValue=8080 \
+      ParameterKey=HealthCheckPath,ParameterValue=/api/health \
+      ParameterKey=HealthCheckIntervalSeconds,ParameterValue=90 \
+      ParameterKey=DatabaseStackName,ParameterValue=kotlin-api-template-database \
+      ParameterKey=DesiredCount,ParameterValue=2

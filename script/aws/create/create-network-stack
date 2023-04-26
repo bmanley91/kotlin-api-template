@@ -1,0 +1,5 @@
+#!/bin/bash
+aws cloudformation create-stack \
+  --stack-name kotlin-api-template-network \
+  --template-body file://cloudformation/network.yml \
+  --capabilities CAPABILITY_IAM

@@ -107,7 +107,7 @@ jobs:
           --parameters \
           ParameterKey=NetworkStackName,ParameterValue=kotlin-api-template-network \
           ParameterKey=ServiceName,ParameterValue=kotlin-api-template \
-          ParameterKey=ImageUrl,ParameterValue=docker.io/bmanley/kotlin-api-template:1.0.${{ github.run_id }} \
+          ParameterKey=ImageUrl,ParameterValue=docker.io/bmanley/kotlin-api-template:1.0.${{ github.sha }} \
           ParameterKey=ContainerPort,ParameterValue=8080 \
           ParameterKey=HealthCheckPath,ParameterValue=/api/health \
           ParameterKey=HealthCheckIntervalSeconds,ParameterValue=90 \

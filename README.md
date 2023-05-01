@@ -1,4 +1,8 @@
 # Kotlin API Template
+
+[![Build and Test](https://github.com/bmanley91/kotlin-api-template/actions/workflows/build-and-test.yml/badge.svg)](https://github.com/bmanley91/kotlin-api-template/actions/workflows/build-and-test.yml)
+[![codecov](https://codecov.io/gh/bmanley91/kotlin-api-template/branch/master/graph/badge.svg?token=NNeMf6Aykm)](https://codecov.io/gh/bmanley91/kotlin-api-template)
+
 A template rest API written in Kotlin following Clean Architecture. This repo is meant to be forked so that a "real"
 service can be built.
 

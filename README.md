@@ -23,7 +23,7 @@ Assure the following are installed:
 To keep behavior as consistent with deployed enviornments as possible, development using a local containerized environment is recommended. To stand up a local environment, run the following:
 
 ```sh
-> ./script/run-local
+> ./script/run-local --build
 ```
 
 This will create a Postgres database and start the service. To confirm that the application started up correctly:

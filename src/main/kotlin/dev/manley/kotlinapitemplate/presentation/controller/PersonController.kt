@@ -4,6 +4,7 @@ import dev.manley.kotlinapitemplate.domain.exception.EmailAlreadyExistsException
 import dev.manley.kotlinapitemplate.domain.model.Person
 import dev.manley.kotlinapitemplate.presentation.request.CreatePersonRequest
 import dev.manley.kotlinapitemplate.usecase.person.CreatePersonUsecase
+import dev.manley.kotlinapitemplate.usecase.person.RetrievePersonByEmailUsecase
 import dev.manley.kotlinapitemplate.usecase.person.RetrievePersonByIdUsecase
 import mu.KotlinLogging
 import org.springframework.http.HttpStatus
@@ -23,7 +24,8 @@ private val logger = KotlinLogging.logger {}
 @RequestMapping("/api/persons")
 class PersonController(
     private val createPersonUsecase: CreatePersonUsecase,
-    private val retrievePersonByIdUsecase: RetrievePersonByIdUsecase
+    private val retrievePersonByIdUsecase: RetrievePersonByIdUsecase,
+    private val retrievePersonByEmailUsecase: RetrievePersonByEmailUsecase
 ) {
 
     @PostMapping
@@ -53,6 +55,19 @@ class PersonController(
             }
             ?: run {
                 logger.info { "Person with id $id not found." }
+                return ResponseEntity.notFound().build()
+            }
+
+    @GetMapping("/email/{email}")
+    fun getPersonByEmail(@PathVariable email: String): ResponseEntity<Person> =
+        retrievePersonByEmailUsecase.execute(email)
+            .takeIf { it != null }
+            ?.let {
+                logger.info { "Retrieved person: $it" }
+                return ResponseEntity.ok(it)
+            }
+            ?: run {
+                logger.info { "Person with email $email not found." }
                 return ResponseEntity.notFound().build()
             }
 

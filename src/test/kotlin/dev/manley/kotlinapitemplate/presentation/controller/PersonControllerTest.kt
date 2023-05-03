@@ -4,6 +4,7 @@ import dev.manley.kotlinapitemplate.domain.exception.EmailAlreadyExistsException
 import dev.manley.kotlinapitemplate.domain.model.Person
 import dev.manley.kotlinapitemplate.presentation.request.CreatePersonRequest
 import dev.manley.kotlinapitemplate.usecase.person.CreatePersonUsecase
+import dev.manley.kotlinapitemplate.usecase.person.RetrievePersonByEmailUsecase
 import dev.manley.kotlinapitemplate.usecase.person.RetrievePersonByIdUsecase
 import io.mockk.every
 import io.mockk.mockk
@@ -27,7 +28,8 @@ class PersonControllerTest {
         every { mockCreatePersonUsecase.execute(person = capture(personSlot)) } answers { personSlot.captured }
         val controller = PersonController(
             createPersonUsecase = mockCreatePersonUsecase,
-            retrievePersonByIdUsecase = mockk()
+            retrievePersonByIdUsecase = mockk(),
+            retrievePersonByEmailUsecase = mockk()
         )
 
         val request = CreatePersonRequest(
@@ -53,7 +55,8 @@ class PersonControllerTest {
         }
         val controller = PersonController(
             createPersonUsecase = mockCreatePersonUsecase,
-            retrievePersonByIdUsecase = mockk()
+            retrievePersonByIdUsecase = mockk(),
+            retrievePersonByEmailUsecase = mockk()
         )
 
         var thrownException: EmailAlreadyExistsException? = null
@@ -76,7 +79,8 @@ class PersonControllerTest {
     fun `test email in use exception handler`() {
         val controller = PersonController(
             createPersonUsecase = mockk(),
-            retrievePersonByIdUsecase = mockk()
+            retrievePersonByIdUsecase = mockk(),
+            retrievePersonByEmailUsecase = mockk()
         )
 
         val response = controller.handleEmailAlreadyExistsException(EmailAlreadyExistsException(email))
@@ -85,7 +89,7 @@ class PersonControllerTest {
     }
 
     @Test
-    fun testRetrievePersonById() {
+    fun `retrieve Person by id`() {
         val mockRetrievePersonByIdUsecase = mockk<RetrievePersonByIdUsecase>()
         val idSlot = slot<UUID>()
         every { mockRetrievePersonByIdUsecase.execute(id = capture(idSlot)) } answers {
@@ -98,7 +102,8 @@ class PersonControllerTest {
         }
         val controller = PersonController(
             createPersonUsecase = mockk(),
-            retrievePersonByIdUsecase = mockRetrievePersonByIdUsecase
+            retrievePersonByIdUsecase = mockRetrievePersonByIdUsecase,
+            retrievePersonByEmailUsecase = mockk()
         )
 
         val inputId = UUID.randomUUID()
@@ -110,13 +115,14 @@ class PersonControllerTest {
     }
 
     @Test
-    fun testGetPersonByIdNotFound() {
+    fun `get Person by id not found`() {
         val mockRetrievePersonByIdUsecase = mockk<RetrievePersonByIdUsecase>()
         val idSlot = slot<UUID>()
         every { mockRetrievePersonByIdUsecase.execute(id = capture(idSlot)) } answers { null }
         val controller = PersonController(
             createPersonUsecase = mockk(),
-            retrievePersonByIdUsecase = mockRetrievePersonByIdUsecase
+            retrievePersonByIdUsecase = mockRetrievePersonByIdUsecase,
+            retrievePersonByEmailUsecase = mockk()
         )
 
         val inputId = UUID.randomUUID()
@@ -125,5 +131,48 @@ class PersonControllerTest {
         verify(exactly = 1) { mockRetrievePersonByIdUsecase.execute(id = inputId) }
         assertEquals(HttpStatus.NOT_FOUND, response.statusCode)
         assertEquals(inputId, idSlot.captured)
+    }
+
+    @Test
+    fun `get person by email`() {
+        val mockRetrievePersonByEmailUsecase = mockk<RetrievePersonByEmailUsecase>()
+        val emailSlot = slot<String>()
+        every { mockRetrievePersonByEmailUsecase.execute(email = capture(emailSlot)) } answers {
+            Person(
+                id = UUID.randomUUID(),
+                name = name,
+                email = email,
+                password = password
+            )
+        }
+        val controller = PersonController(
+            createPersonUsecase = mockk(),
+            retrievePersonByIdUsecase = mockk(),
+            retrievePersonByEmailUsecase = mockRetrievePersonByEmailUsecase
+        )
+
+        val response = controller.getPersonByEmail(email)
+
+        verify(exactly = 1) { mockRetrievePersonByEmailUsecase.execute(email = email) }
+        assertEquals(HttpStatus.OK, response.statusCode)
+        assertEquals(email, emailSlot.captured)
+    }
+
+    @Test
+    fun `get Person by email not found`() {
+        val mockRetrievePersonByEmailUsecase = mockk<RetrievePersonByEmailUsecase>()
+        val emailSlot = slot<String>()
+        every { mockRetrievePersonByEmailUsecase.execute(email = capture(emailSlot)) } answers { null }
+        val controller = PersonController(
+            createPersonUsecase = mockk(),
+            retrievePersonByIdUsecase = mockk(),
+            retrievePersonByEmailUsecase = mockRetrievePersonByEmailUsecase
+        )
+
+        val response = controller.getPersonByEmail(email)
+
+        verify(exactly = 1) { mockRetrievePersonByEmailUsecase.execute(email = email) }
+        assertEquals(HttpStatus.NOT_FOUND, response.statusCode)
+        assertEquals(email, emailSlot.captured)
     }
 }
